@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve flask demo.
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/flask-demo/src
+Environment="PATH=/srv/flask-demo/env/bin"
+ExecStart=/srv/flask-demo/env/bin/uwsgi --ini app.ini
+
+[Install]
+WantedBy=multi-user.target

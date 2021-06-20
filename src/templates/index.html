@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Flask Demo{% endblock %}
+{% block nav %}
+<li class="nav-item active">
+  <a class="nav-link" href="/">Front page</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/sample/">Sample page</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/about/">About</a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <h3 id="header" class="display-5">Flask Demo.</h3>
+  <p id="lead" class="lead">This is the index page.</p>
+  <hr class="my-4">
+</div>
+
+{% endblock %}

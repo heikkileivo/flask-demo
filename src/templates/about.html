@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}About Flask Demo{% endblock %}
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link" href="/">Front page</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="/sample/">Sample page</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="/about/">About</a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <h3 class="display-5">About this demo</h3>
+  <hr class="my-4">
+
+  <p>This simple page is a simple demonstration of a website built on Flask and Bootstrap.</p>
+</div>
+
+{% endblock %}
