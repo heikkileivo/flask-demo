@@ -7,7 +7,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=/srv/flask-demo/src
 Environment="PATH=/srv/flask-demo/env/bin"
-ExecStart=/srv/flask-demo/env/bin/uwsgi --ini app.ini
+ExecStart=/srv/flask-demo/env/bin/uwsgi --ini flask-demo.ini
 
 [Install]
 WantedBy=multi-user.target
