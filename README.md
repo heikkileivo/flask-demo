@@ -1,6 +1,9 @@
 # flask-demo
 Simple, minimal [Flask](https://flask.palletsprojects.com/en/2.0.x/) demo, intended to be run on uWsgi + nginx.
 
+The live demo can be viewed in [https://flask-demo.dynalias.net/](https://flask-demo.dynalias.net/).
+
+
 ## Installation for development
 
 To run the demo in local environment, follow these steps:
@@ -118,10 +121,10 @@ sudo ln -s /home/[your-account]/flask-demo .
 
 4. Start uWSGI service
 
-To run the python application, you have to run the uWSGI server. The configuration file for uWSGI is app.ini. 
-You can either install it as systemd service or run it using supervisor.
+To run the python application, you have to run the uWSGI server. The configuration file for uWSGI service is [flask-demo.ini](src/flask-demo.ini); review it for details. 
+You can either install it as [systemd service](https://linuxconfig.org/how-to-create-systemd-service-unit-in-linux#h8-creating-and-installing-a-service-unit) or run it using [supervisord](http://supervisord.org/) (or by any other means you find appropriate). 
 
-To install uWSGI as systemd service, create a symbolic link under /etc/systemd/system directory and start the service:
+The systemd service file is [flask-demo.service](src/flask-demo.service). To install uWSGI as systemd service, create a symbolic link to it into /etc/systemd/system directory and start the service:
 
 ```bash
 
@@ -132,4 +135,44 @@ sudo systemctl start flask-demo.service
 
 If the system started normally, you should see flask-demo.sock file in /tmp directory. 
 
+Alternatively, you can run uWSGI using supervisord. Refer to [supervisord documentation](http://supervisord.org/installing.html) for details in installing. 
+To start uWSGI using supervisor, create a symbolic link to supervisord configuration file [flask-demo.supervisor.conf](src/flask-demo.supervisor.conf) 
+into supervisord configuration directory /etc/supevisor/conf.d:
 
+```bash
+
+sudo ln -s /srv/flask-demo/src/flask-demo.supervisor.conf /etc/supervisor/conf.d
+sudo supervisorctl reload
+sudo supervisorctl status
+
+```
+
+You should see uwsgi service running in supervisorctl status, and you should find flask-demo.sock file in /tmp directory.
+
+5. Set up NGINX to serve the application
+
+To set up NGINX, review the nginx configuration file [flask-demo.nginx.conf](src/flask-demo.nginx.conf). Modify the server_name directive according to the 
+dns name you are planning to host your service. Then create a symbolic link into /etc/nginx/sites-enabled directory and restart nginx:
+
+```bash
+
+sudo ln -s /srv/flask-demo/src/flask-demo.nginx.conf /etc/nginx/sites-enabled
+sudo service nginx configtest
+sudo service nginx reload
+
+```
+
+You should now see the flask site up and running on your production server.
+
+6. Serve site with https 
+
+The final step would be to install https certificate to serve the site using https. 
+The easiest way is to use [certbot](https://certbot.eff.org/) to create a Let's Encrypt certificate. Refer to [certbot documentation](https://certbot.eff.org/instructions) for installing certbot and run:
+
+```bash
+
+sudo certbot --nginx
+
+```
+
+Follow the instructions to create a certificate to your site, and your site should be now served using https. 
